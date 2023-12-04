@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DevBank
 {
-    public abstract class CompteBancaire : ITransactionnel
+    public class CompteBancaire : ITransactionnel
     {
-        public int NumeroCompte;
+        private Guid _numeroCompte;
 
-        public int Solde
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private int _solde;
+
 
         public List<Transaction> ListeTransactions
         {
@@ -22,9 +18,15 @@ namespace DevBank
             }
         }
 
+        public CompteBancaire()
+        {
+            _solde = 0;
+            _numeroCompte = Guid.NewGuid();
+        }
+
         public void ConsulterSolde()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine($"Solde du compte {_numeroCompte}: {_solde} €");
         }
 
 
