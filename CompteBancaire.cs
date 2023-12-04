@@ -59,5 +59,10 @@ namespace DevBank
         {
             throw new System.NotImplementedException();
         }
+
+        public void AfficherSolde()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

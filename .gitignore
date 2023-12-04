@@ -1,0 +1,5 @@
+bin/
+obj/
+.vs/
+obj/Debug/net6.0/DevBank.assets.cache
+obj/Debug/net6.0/DevBank.GeneratedMSBuildEditorConfig.editorconfig
