@@ -1,4 +1,6 @@
-﻿namespace DevBank
+﻿using System;
+
+namespace DevBank
 {
     public abstract class CompteBancaire : ITransactionnel
     {
@@ -10,7 +12,7 @@
             }
         }
 
-        public int Solde
+        public static double Solde
         {
             get => default;
             set
@@ -51,14 +53,27 @@
             throw new System.NotImplementedException();
         }
 
-        public void EffectuerDépôt()
+        public bool EffectuerDepot(double montant)
         {
-            throw new System.NotImplementedException();
+            if (montant <= 0)
+            {
+                Console.WriteLine("Erreur : le montant du dépot doit être positif");
+                return false;
+            }
+            Solde += montant;
+        
+            Console.WriteLine($"Votre solde est désormais de {Solde}");
+            return true;
         }
 
         public void AfficherSolde()
         {
             throw new System.NotImplementedException();
+        }
+
+        public void EffectuerDépôt()
+        {
+            throw new NotImplementedException();
         }
     }
 }
