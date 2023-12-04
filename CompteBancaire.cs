@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DevBank
 {
-    public abstract class CompteBancaire : ITransactionnel
+    public class CompteBancaire : ITransactionnel
     {
-        public int NumeroCompte
+        private Guid _numeroCompte;
+
+        private double _solde;
+
+
+        public List<Transaction> ListeTransactions
         {
             get => default;
             set
@@ -12,21 +18,17 @@ namespace DevBank
             }
         }
 
-        public static double Solde
+        public CompteBancaire()
         {
-            get => default;
-            set
-            {
-            }
+            _solde = 0;
+            _numeroCompte = Guid.NewGuid();
         }
 
-        public int ListeTransactions
+        public void ConsulterSolde()
         {
-            get => default;
-            set
-            {
-            }
+            Console.WriteLine($"Solde du compte {_numeroCompte}: {_solde} €");
         }
+
 
         public void CalculFrais()
         {
@@ -60,9 +62,9 @@ namespace DevBank
                 Console.WriteLine("Erreur : le montant du dépot doit être positif");
                 return false;
             }
-            Solde += montant;
+            _solde += montant;
         
-            Console.WriteLine($"Votre solde est désormais de {Solde}");
+            Console.WriteLine($"Votre solde est désormais de {_solde}");
             return true;
         }
 
