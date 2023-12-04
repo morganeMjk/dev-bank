@@ -1,14 +1,10 @@
-﻿namespace DevBank
+﻿using System.Collections.Generic;
+
+namespace DevBank
 {
     public abstract class CompteBancaire : ITransactionnel
     {
-        public int NumeroCompte
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int NumeroCompte;
 
         public int Solde
         {
@@ -18,13 +14,19 @@
             }
         }
 
-        public int ListeTransactions
+        public List<Transaction> ListeTransactions
         {
             get => default;
             set
             {
             }
         }
+
+        public void ConsulterSolde()
+        {
+            throw new System.NotImplementedException();
+        }
+
 
         public void CalculFrais()
         {
