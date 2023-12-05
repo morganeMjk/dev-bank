@@ -20,13 +20,10 @@ class Program
             switch (choix)
             {
                 case "1":
-                    Console.WriteLine("Quel est le montant de votre dépot ?");
                     monCompteBancaire.EffectuerDepot();
                     break;
                 case "2":
-                    Console.WriteLine("Quel est le montant de votre retrait ?");
-                    var monRetrait = Console.ReadLine();
-                    monCompteBancaire.EffectuerRetrait(monRetrait);
+                    monCompteBancaire.EffectuerRetrait();
                     break;
                 case "3":
                     monCompteBancaire.AfficherHistorique();

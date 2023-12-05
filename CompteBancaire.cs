@@ -73,37 +73,57 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public bool EffectuerRetrait(string montant)
+        public bool EffectuerRetrait()
         {
             while (true)
             {
-                if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
+                try
                 {
-                    Console.WriteLine("Erreur : le montant du retrait doit être positif");
-                    return false;
+                    Console.WriteLine("Veuillez saisir le montant de votre retrait :");
+                    string montant = Console.ReadLine();
+
+                    if (double.TryParse(montant, out double montantDouble))
+                    {
+                        if (montantDouble > 0)
+                        {
+                            if (montantDouble <= _solde)
+                            {
+                                int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                                if (decimales <= 2)
+                                {
+                                    _solde -= montantDouble;
+                                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                                    _listeTransactions.Add(retrait);
+                                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+                                    return true;
+                                }
+                                else
+                                {
+                                    throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Le montant du retrait est supérieur au solde.");
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("Le montant doit être supérieur à zéro.");
+                        }
+                    }
+                    else
+                    {
+                        throw new FormatException("Veuillez saisir un montant valide.");
+                    }
                 }
-
-                montantDouble = Math.Round(montantDouble, 2);
-
-                if (montantDouble > _solde)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Erreur : le montant du retrait est supérieur au solde");
-                    Console.Write("Veuillez saisir un montant de retrait valide : ");
-                    montant = Console.ReadLine();
-                }
-                else
-                {
-                    _solde -= montantDouble;
-
-                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
-                    _listeTransactions.Add(retrait);
-
-
-                    Console.WriteLine($"Votre solde est désormais de {_solde} €");
-                    return true;
+                    Console.WriteLine("Une erreur s'est produite : " + ex.Message);
                 }
             }
         }
+
 
 
         public bool EffectuerDepot()
