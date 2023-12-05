@@ -94,6 +94,11 @@ namespace DevBank
                 else
                 {
                     _solde -= montantDouble;
+
+                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                    _listeTransactions.Add(retrait);
+
+
                     Console.WriteLine($"Votre solde est désormais de {_solde} €");
                     return true;
                 }
