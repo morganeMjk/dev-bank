@@ -11,15 +11,11 @@ class Program
 
         var monCompteBancaire = new CompteBancaire();
         monCompteBancaire.ConsulterSolde();
-        Console.WriteLine("Quel est le montant de votre dépot ?");
-        var monDepot = Console.ReadLine();
-        var depot = monCompteBancaire.EffectuerDepot(monDepot);
+        var depot = monCompteBancaire.EffectuerDepot();
         Console.WriteLine("Quel est le montant de votre retrait ?");
         var monRetrait = Console.ReadLine();
         var retrait = monCompteBancaire.EffectuerRetrait(monRetrait);
-        Console.WriteLine("Quel est le montant de votre dépot ?");
-        var monDepot2 = Console.ReadLine();
-        var depot2 = monCompteBancaire.EffectuerDepot(monDepot2);
+        var depot2 = monCompteBancaire.EffectuerDepot();
         monCompteBancaire.AfficherHistorique();
     }
 }

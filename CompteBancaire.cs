@@ -106,25 +106,47 @@ namespace DevBank
         }
 
 
-        public bool EffectuerDepot(string montant)
+        public bool EffectuerDepot()
         {
-            if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
+            while (true)
             {
+                try
+                {
+                    Console.WriteLine("Veuillez saisir le montant de votre dépôt :");
+                    string montant = Console.ReadLine();
 
-                Console.WriteLine("Erreur : le montant du dépot doit être positif");
-                return false;
-            }
-            else
-            {
-                montantDouble = Math.Round(montantDouble, 2);
-
-                _solde += montantDouble;
-
-                Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
-                _listeTransactions.Add(depot);
-
-                Console.WriteLine($"Votre solde est désormais de {_solde} €");
-                return true;
+                    if (double.TryParse(montant, out double montantDouble))
+                    {
+                        if (montantDouble >= 0.01)
+                        {
+                            int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                            if (decimales <= 2)
+                            {
+                                _solde += montantDouble;
+                                Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+                                _listeTransactions.Add(depot);
+                                Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
+                                return true;
+                            }
+                            else
+                            {
+                                throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("Le montant doit être supérieur ou égal à 0,01.");
+                        }
+                    }
+                    else
+                    {
+                        throw new FormatException("Veuillez saisir un montant valide.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+                }
             }
         }
     }

@@ -9,6 +9,6 @@ namespace DevBank
     {
         bool EffectuerRetrait(string montant);
         bool EffectuerVirement();
-        bool EffectuerDepot(string montant);
+        bool EffectuerDepot();
     }
 }
