@@ -52,22 +52,31 @@ namespace DevBank
 
         public bool EffectuerRetrait(string montant)
         {
-            if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
+            while (true)
             {
+                if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
+                {
+                    Console.WriteLine("Erreur : le montant du retrait doit être positif");
+                    return false;
+                }
 
-                Console.WriteLine("Erreur : le montant du retrait doit être positif");
-                return false;
-            }
-            else
-            {
                 montantDouble = Math.Round(montantDouble, 2);
 
-                _solde -= montantDouble;
-
-                Console.WriteLine($"Votre solde est désormais de {_solde} €");
-                return true;
+                if (montantDouble > _solde)
+                {
+                    Console.WriteLine("Erreur : le montant du retrait est supérieur au solde");
+                    Console.Write("Veuillez saisir un montant de retrait valide : ");
+                    montant = Console.ReadLine();
+                }
+                else
+                {
+                    _solde -= montantDouble;
+                    Console.WriteLine($"Votre solde est désormais de {_solde} €");
+                    return true;
+                }
             }
         }
+
 
         public bool EffectuerDepot(string montant)
         {
