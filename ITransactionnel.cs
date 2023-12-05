@@ -7,8 +7,8 @@ namespace DevBank
 {
     public interface ITransactionnel
     {
-        void EffectuerRetrait();
+        bool EffectuerRetrait(string montant);
         void EffectuerVirement();
-        void EffectuerDepot();
+        bool EffectuerDepot(string montant);
     }
 }

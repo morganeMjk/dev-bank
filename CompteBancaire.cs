@@ -26,7 +26,7 @@ namespace DevBank
 
         public void ConsulterSolde()
         {
-            Console.WriteLine($"Solde du compte {_numeroCompte}: {_solde} €");
+            Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
         }
 
 
@@ -45,14 +45,28 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public void EffectuerRetrait()
+        public void EffectuerVirement()
         {
             throw new System.NotImplementedException();
         }
 
-        public void EffectuerVirement()
+        public bool EffectuerRetrait(string montant)
         {
-            throw new System.NotImplementedException();
+            if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
+            {
+
+                Console.WriteLine("Erreur : le montant du retrait doit être positif");
+                return false;
+            }
+            else
+            {
+                montantDouble = Math.Round(montantDouble, 2);
+
+                _solde -= montantDouble;
+
+                Console.WriteLine($"Votre solde est désormais de {_solde} €");
+                return true;
+            }
         }
 
         public bool EffectuerDepot(string montant)
@@ -72,16 +86,6 @@ namespace DevBank
                 Console.WriteLine($"Votre solde est désormais de {_solde} €");
                 return true;
             }
-        }
-
-        public void EffectuerDépôt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EffectuerDepot()
-        {
-            throw new NotImplementedException();
         }
     }
 }
