@@ -45,7 +45,7 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public void EffectuerVirement()
+        public bool EffectuerVirement()
         {
             throw new System.NotImplementedException();
         }
