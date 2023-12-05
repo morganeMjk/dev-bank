@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DevBank
 {
-    public class CompteCourant : CompteBancaire
+    public class CompteCourant : CompteBancaire , ITransactionnel
     {
         public int DécouvertAutorisé
         {

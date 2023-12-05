@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DevBank
 {
-    public class CompteBancaire : ITransactionnel
+    public abstract class CompteBancaire : ITransactionnel
     {
         private Guid _numeroCompte;
 
@@ -24,7 +24,7 @@ namespace DevBank
             _listeTransactions = new List<Transaction>();
         }
 
-        public void ConsulterSolde()
+        public virtual void ConsulterSolde()
         {
             Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
         }
@@ -40,7 +40,7 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public void AfficherHistorique()
+        public virtual void AfficherHistorique()
         {
             Console.WriteLine("Voici l'historique de vos transactions sur les 30 derniers jours :");
 
@@ -68,12 +68,12 @@ namespace DevBank
             }
         }
 
-        public bool EffectuerVirement()
+        public virtual bool EffectuerVirement()
         {
             throw new System.NotImplementedException();
         }
 
-        public bool EffectuerRetrait()
+        public virtual bool EffectuerRetrait()
         {
             while (true)
             {
@@ -126,7 +126,7 @@ namespace DevBank
 
 
 
-        public bool EffectuerDepot()
+        public virtual bool EffectuerDepot()
         {
             while (true)
             {
