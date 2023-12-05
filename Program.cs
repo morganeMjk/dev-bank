@@ -7,15 +7,53 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Write("Bienvenue ! ");
+        Console.WriteLine("Bienvenue dans l'application bancaire !");
+        CompteBancaire monCompteBancaire = new CompteBancaire();
 
-        var monCompteBancaire = new CompteBancaire();
-        monCompteBancaire.ConsulterSolde();
-        var depot = monCompteBancaire.EffectuerDepot();
-        Console.WriteLine("Quel est le montant de votre retrait ?");
-        var monRetrait = Console.ReadLine();
-        var retrait = monCompteBancaire.EffectuerRetrait(monRetrait);
-        var depot2 = monCompteBancaire.EffectuerDepot();
-        monCompteBancaire.AfficherHistorique();
+        while (true)
+        {
+            AfficherPageAccueil(monCompteBancaire);
+
+            Console.Write("Veuillez choisir une option (1-4) : ");
+            string choix = Console.ReadLine();
+
+            switch (choix)
+            {
+                case "1":
+                    Console.WriteLine("Quel est le montant de votre dépot ?");
+                    monCompteBancaire.EffectuerDepot();
+                    break;
+                case "2":
+                    Console.WriteLine("Quel est le montant de votre retrait ?");
+                    var monRetrait = Console.ReadLine();
+                    monCompteBancaire.EffectuerRetrait(monRetrait);
+                    break;
+                case "3":
+                    monCompteBancaire.AfficherHistorique();
+                    break;
+                case "4":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
+                    break;
+            }
+        }
     }
+
+    static void AfficherPageAccueil(CompteBancaire monCompteBancaire)
+    {
+
+        // Affichage des informations du compte
+        monCompteBancaire.ConsulterSolde();
+
+        // Affichage du menu
+        Console.WriteLine("1. Effectuer un dépôt");
+        Console.WriteLine("2. Effectuer un retrait");
+        Console.WriteLine("3. Afficher l'historique des transactions");
+        Console.WriteLine("4. Quitter\n");
+    }
+
+
 }
+
