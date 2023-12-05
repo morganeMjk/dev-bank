@@ -9,6 +9,6 @@ namespace DevBank
     {
         void EffectuerRetrait();
         void EffectuerVirement();
-        void EffectuerDépôt();
+        void EffectuerDepot();
     }
 }

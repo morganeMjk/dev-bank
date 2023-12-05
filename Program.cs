@@ -11,6 +11,8 @@ class Program
 
         var monCompteBancaire = new CompteBancaire();
         monCompteBancaire.ConsulterSolde();
-
+        Console.WriteLine("Quel est le montant de votre dépot ?");
+        var monDepot = Console.ReadLine();
+        var depot = monCompteBancaire.EffectuerDepot(monDepot);
     }
 }

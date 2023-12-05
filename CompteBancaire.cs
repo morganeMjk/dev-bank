@@ -55,25 +55,31 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public bool EffectuerDepot(double montant)
+        public bool EffectuerDepot(string montant)
         {
-            if (montant <= 0)
+            if (!double.TryParse(montant, out double montantDouble) || montantDouble <= 0)
             {
+
                 Console.WriteLine("Erreur : le montant du dépot doit être positif");
                 return false;
             }
-            _solde += montant;
-        
-            Console.WriteLine($"Votre solde est désormais de {_solde}");
-            return true;
-        }
+            else
+            {
+                montantDouble = Math.Round(montantDouble, 2);
 
-        public void AfficherSolde()
-        {
-            throw new System.NotImplementedException();
+                _solde += montantDouble;
+
+                Console.WriteLine($"Votre solde est désormais de {_solde} €");
+                return true;
+            }
         }
 
         public void EffectuerDépôt()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EffectuerDepot()
         {
             throw new NotImplementedException();
         }
