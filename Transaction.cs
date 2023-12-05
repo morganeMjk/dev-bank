@@ -7,28 +7,15 @@ namespace DevBank
 {
     public class Transaction
     {
-        public int Type
-        {
-            get => default;
-            set
-            {
-            }
-        }
+      public string Type { get; set; }
+        public double Montant { get; set; }
+        public DateTime Date { get; set; }
 
-        public int Montant
+        public Transaction(string type, double montant, DateTime date)
         {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public int Date
-        {
-            get => default;
-            set
-            {
-            }
+            Type = type;
+            Montant = montant;
+            Date = date;
         }
     }
 }
