@@ -9,19 +9,19 @@ namespace DevBank
 
         private double _solde;
 
+        private List<Transaction> _listeTransactions;
 
         public List<Transaction> ListeTransactions
         {
-            get => default;
-            set
-            {
-            }
+            get { return _listeTransactions; }
+            set { _listeTransactions = value; }
         }
 
         public CompteBancaire()
         {
             _solde = 0;
             _numeroCompte = Guid.NewGuid();
+            _listeTransactions = new List<Transaction>();
         }
 
         public void ConsulterSolde()
@@ -42,7 +42,30 @@ namespace DevBank
 
         public void AfficherHistorique()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("Voici l'historique de vos transactions sur les 30 derniers jours :");
+
+            DateTime dateLimite = DateTime.Now.AddDays(-30);
+
+            foreach (var userTransaction in _listeTransactions)
+            {
+                if (userTransaction.Date >= dateLimite)
+                {
+                    if (userTransaction.Type == "Depot")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($" +{userTransaction.Montant} €");
+                        Console.ResetColor();
+                    }
+                    else if (userTransaction.Type == "Retrait")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($" -{userTransaction.Montant} €");
+                        Console.ResetColor();
+                    }
+                }
+            }
         }
 
         public bool EffectuerVirement()
@@ -91,6 +114,9 @@ namespace DevBank
                 montantDouble = Math.Round(montantDouble, 2);
 
                 _solde += montantDouble;
+
+                Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+                _listeTransactions.Add(depot);
 
                 Console.WriteLine($"Votre solde est désormais de {_solde} €");
                 return true;
