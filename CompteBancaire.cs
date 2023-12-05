@@ -42,7 +42,30 @@ namespace DevBank
 
         public void AfficherHistorique()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("Voici l'historique de vos transactions sur les 30 derniers jours :");
+
+            DateTime dateLimite = DateTime.Now.AddDays(-30);
+
+            foreach (var userTransaction in _listeTransactions)
+            {
+                if (userTransaction.Date >= dateLimite)
+                {
+                    if (userTransaction.Type == "Depot")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($" +{userTransaction.Montant} €");
+                        Console.ResetColor();
+                    }
+                    else if (userTransaction.Type == "Retrait")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($" -{userTransaction.Montant} €");
+                        Console.ResetColor();
+                    }
+                }
+            }
         }
 
         public bool EffectuerVirement()

@@ -17,5 +17,9 @@ class Program
         Console.WriteLine("Quel est le montant de votre retrait ?");
         var monRetrait = Console.ReadLine();
         var retrait = monCompteBancaire.EffectuerRetrait(monRetrait);
+        Console.WriteLine("Quel est le montant de votre dépot ?");
+        var monDepot2 = Console.ReadLine();
+        var depot2 = monCompteBancaire.EffectuerDepot(monDepot2);
+        monCompteBancaire.AfficherHistorique();
     }
 }
