@@ -9,19 +9,19 @@ namespace DevBank
 
         private double _solde;
 
+        private List<Transaction> _listeTransactions;
 
         public List<Transaction> ListeTransactions
         {
-            get => default;
-            set
-            {
-            }
+            get { return _listeTransactions; }
+            set { _listeTransactions = value; }
         }
 
         public CompteBancaire()
         {
             _solde = 0;
             _numeroCompte = Guid.NewGuid();
+            _listeTransactions = new List<Transaction>();
         }
 
         public void ConsulterSolde()
@@ -69,19 +69,12 @@ namespace DevBank
 
                 _solde += montantDouble;
 
+                Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+                _listeTransactions.Add(depot);
+
                 Console.WriteLine($"Votre solde est désormais de {_solde} €");
                 return true;
             }
-        }
-
-        public void EffectuerDépôt()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EffectuerDepot()
-        {
-            throw new NotImplementedException();
         }
     }
 }
