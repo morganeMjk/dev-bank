@@ -40,6 +40,11 @@ class Program
                                 monCompteCourant.AfficherHistorique();
                                 break;
                             case "4":
+                                AfficherMenuPrincipal();
+                                Console.Write("Veuillez choisir un compte (1-2) : ");
+                                choixCompte = Console.ReadLine();
+                                break;
+                            case "5":
                                 Environment.Exit(0);
                                 break;
                             default:
@@ -67,6 +72,11 @@ class Program
                                 monCompteEpargne.AfficherHistorique();
                                 break;
                             case "4":
+                                AfficherMenuPrincipal();
+                                Console.Write("Veuillez choisir un compte (1-2) : ");
+                                choixCompte = Console.ReadLine();
+                                break;
+                            case "5":
                                 Environment.Exit(0);
                                 break;
                             default:
@@ -91,7 +101,8 @@ class Program
         Console.WriteLine("1. Effectuer un dépôt");
         Console.WriteLine("2. Effectuer un retrait");
         Console.WriteLine("3. Afficher l'historique des transactions");
-        Console.WriteLine("4. Quitter\n");
+        Console.WriteLine("4. Revenir au choix du compte");
+        Console.WriteLine("5. Quitter\n");
     }
 
     static void AfficherMenuPrincipal()
