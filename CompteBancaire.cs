@@ -7,38 +7,21 @@ namespace DevBank
     {
         private Guid _numeroCompte;
 
-        public Guid getNumeroCompte()
+        public virtual Guid getNumeroCompte()
         {
             return _numeroCompte;
         }
 
+        protected double _solde;
 
-        private double _solde;
-
-        public double getSolde()
-        {
-            return _solde;
-        }
-
-        public double setSolde(double solde)
-        {
-            _solde = solde;
-            return _solde;
-        }
-
-        private List<Transaction> _listeTransactions;
-
-        public List<Transaction> getListeTransactions()
-        {
-            return _listeTransactions;
-        }
-
-        public List<Transaction> setListeTransactions(List<Transaction> listeTransactions)
-        {
-            _listeTransactions = listeTransactions;
-            return _listeTransactions;
-        }
         
+
+        protected List<Transaction> _listeTransactions;
+
+        
+
+
+
 
         public CompteBancaire()
         {
@@ -50,17 +33,6 @@ namespace DevBank
         public virtual void ConsulterSolde()
         {
             Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
-        }
-
-
-        public void CalculFrais()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void ObtenirPolitique()
-        {
-            throw new System.NotImplementedException();
         }
 
         public virtual void AfficherHistorique()
@@ -147,8 +119,6 @@ namespace DevBank
             }
         }
 
-
-
         public virtual bool EffectuerDepot()
         {
             while (true)
@@ -192,5 +162,7 @@ namespace DevBank
                 }
             }
         }
+
+
     }
 }
