@@ -7,13 +7,16 @@ namespace DevBank
 {
     public class CompteCourant : CompteBancaire, ITransactionnel
     {
-        private double _decouvertAutorise;
-        private const double _pourcentageFrais = 0.05;
+        private const double _decouvertAutorise = -500;
+        private const double _pourcentageFraisRetrait = 0.02;
 
-        public CompteCourant() : base()
+        // Autres membres et méthodes
+
+        private double CalculerFraisRetrait()
         {
-            _decouvertAutorise = -500;
-
+            double montant = Math.Abs(_solde) * _pourcentageFraisRetrait;
+            Console.WriteLine($"Frais appliqués : -{montant} € ({_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif)");
+            return montant;
         }
 
         public override bool EffectuerRetrait()
@@ -27,20 +30,49 @@ namespace DevBank
 
                     if (double.TryParse(montant, out double montantDouble))
                     {
-                        if (montantDouble > _decouvertAutorise)
+                        if (montantDouble > 0)
                         {
-                            double soldeAvantRetrait = _solde;
-
-                            // Utilisation de la méthode de la classe de base avec le découvert autorisé spécifique
-                            bool retraitEffectue = base.EffectuerRetrait();
-
-                            if (retraitEffectue && _solde < 0 && soldeAvantRetrait >= 0)
+                            // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
+                            if (montantDouble <= _solde + _decouvertAutorise)
                             {
-                                // Le solde est devenu négatif suite à ce retrait, déclencher le calcul des frais
-                                CalculFrais();
-                            }
+                                int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                                if (decimales <= 2)
+                                {
+                                    double soldeAvantRetrait = _solde;
 
-                            return retraitEffectue;
+                                    // Effectuer le retrait
+                                    _solde -= montantDouble;
+
+                                    // Si le solde est devenu négatif avant le retrait, appliquer des frais
+                                    if (soldeAvantRetrait < 0)
+                                    {
+                                        double montantFraisAvantRetrait = CalculerFraisRetrait();
+                                        _solde -= montantFraisAvantRetrait;
+                                    }
+
+                                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                                    _listeTransactions.Add(retrait);
+
+                                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+
+                                    // Si le solde est devenu négatif après le retrait, appliquer des frais
+                                    if (_solde < 0)
+                                    {
+                                        double montantFraisApresRetrait = CalculerFraisRetrait();
+                                        _solde -= montantFraisApresRetrait;
+                                    }
+
+                                    return true;
+                                }
+                                else
+                                {
+                                    throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Le montant du retrait est supérieur au solde autorisé (y compris le découvert).");
+                            }
                         }
                         else
                         {
@@ -58,22 +90,5 @@ namespace DevBank
                 }
             }
         }
-
-
-        public void CalculFrais()
-        {
-            double montantFrais = Math.Abs(_solde) * _pourcentageFrais;
-
-            Console.WriteLine($"Frais appliqués : -{montantFrais} € ({_pourcentageFrais * 100}% du solde en raison de solde négatif)");
-
-            _solde -= montantFrais;
-
-            Transaction frais = new Transaction("Frais", montantFrais, DateTime.Now);
-            _listeTransactions.Add(frais);
-        }
-
     }
-
-
 }
-
