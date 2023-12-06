@@ -7,16 +7,11 @@ namespace DevBank
     {
         private Guid _numeroCompte;
 
-        public virtual Guid getNumeroCompte()
-        {
-            return _numeroCompte;
-        }
-
         protected double _solde;
 
-        
-
         protected List<Transaction> _listeTransactions;
+        protected double _montantRetrait;
+
 
         
 
@@ -33,6 +28,17 @@ namespace DevBank
         public virtual void ConsulterSolde()
         {
             Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
+        }
+
+
+        public virtual double CalculFrais()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public virtual void ObtenirPolitique()
+        {
+            Console.WriteLine("Voici la politique de votre compte :");
         }
 
         public virtual void AfficherHistorique()
@@ -79,6 +85,7 @@ namespace DevBank
 
                     if (double.TryParse(montant, out double montantDouble))
                     {
+                        _montantRetrait = montantDouble;
                         if (montantDouble > 0)
                         {
                             if (montantDouble <= _solde)

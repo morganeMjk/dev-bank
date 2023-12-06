@@ -11,6 +11,16 @@ class Program
         QUITTER = 3
     }
 
+    enum ActionsCompte
+    {
+        DEPOT = 1,
+        RETRAIT = 2,
+        HISTORIQUE = 3,
+        POLITIQUE = 4,
+        RETOUR_CHOIX_COMPTE = 5,
+        QUITTER = 6
+    }
+
     static void Main(string[] args)
     {
         Console.WriteLine("Bienvenue dans l'application bancaire !");
@@ -20,15 +30,17 @@ class Program
         while (true)
         {
             AfficherMenuPrincipal();
-            int choixCompte;
             TypeChoixCompte choixTypeCompte = GetTypeCompte();
             switch (choixTypeCompte)
             {
                 case TypeChoixCompte.COMPTE_COURANT:
-                    TraiterActionCompte(monCompteCourant, choixTypeCompte);
+                    TraiterChoixCompte(monCompteCourant, choixTypeCompte);
                     break;
                 case TypeChoixCompte.COMPTE_EPARGNE:
-                    TraiterActionCompte(monCompteEpargne, choixTypeCompte);
+                    TraiterChoixCompte(monCompteEpargne, choixTypeCompte);
+                    break;
+                case TypeChoixCompte.QUITTER:
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
@@ -37,31 +49,32 @@ class Program
         }
     }
 
-    private static void TraiterActionCompte(CompteBancaire monCompte, TypeChoixCompte choixTypeCompte)
+    private static void TraiterChoixCompte(CompteBancaire monCompte, TypeChoixCompte choixTypeCompte)
     {
         var choixQuitter = false;
         while (!choixQuitter)
         {
-            AfficherPageAccueil(monCompte, choixTypeCompte);
+            AfficherActionsCompte(monCompte, choixTypeCompte);
+            ActionsCompte choixActionCompte = GetActionCompte();
 
-            Console.Write("Veuillez choisir une option (1-4) : ");
-            string choix = Console.ReadLine();
-
-            switch (choix)
+            switch (choixActionCompte)
             {
-                case "1":
+                case ActionsCompte.DEPOT:
                     monCompte.EffectuerDepot();
                     break;
-                case "2":
+                case ActionsCompte.RETRAIT:
                     monCompte.EffectuerRetrait();
                     break;
-                case "3":
+                case ActionsCompte.HISTORIQUE:
                     monCompte.AfficherHistorique();
                     break;
-                case "4":
+                case ActionsCompte.POLITIQUE:
+                    monCompte.ObtenirPolitique();
+                    break;
+                case ActionsCompte.RETOUR_CHOIX_COMPTE:
                     choixQuitter = true;
                     break;
-                case "5":
+                case ActionsCompte.QUITTER:
                     Environment.Exit(0);
                     break;
                 default:
@@ -74,12 +87,26 @@ class Program
     private static TypeChoixCompte GetTypeCompte()
     {
         Console.Write("Veuillez choisir un compte (1-2) : ");
+
         int.TryParse(Console.ReadLine(), out int choixCompte);
+
         TypeChoixCompte choixTypeCompte = (TypeChoixCompte)choixCompte;
+
         return choixTypeCompte;
     }
 
-    static void AfficherPageAccueil(CompteBancaire monCompteBancaire, TypeChoixCompte choixCompte)
+    private static ActionsCompte GetActionCompte()
+    {
+        Console.Write("Selectionnez une action à effectuer sur votre compte : ");
+
+        int.TryParse(Console.ReadLine(), out int choixActionCompte);
+
+        ActionsCompte actionCompte = (ActionsCompte)choixActionCompte;
+
+        return actionCompte;
+    }
+
+    static void AfficherActionsCompte(CompteBancaire monCompteBancaire, TypeChoixCompte choixCompte)
     {
         // Affichage des informations du compte
         if (choixCompte == TypeChoixCompte.COMPTE_COURANT)
@@ -95,8 +122,9 @@ class Program
         Console.WriteLine("1. Effectuer un dépôt");
         Console.WriteLine("2. Effectuer un retrait");
         Console.WriteLine("3. Afficher l'historique des transactions");
-        Console.WriteLine("4. Revenir au choix du compte");
-        Console.WriteLine("5. Quitter\n");
+        Console.WriteLine("4. Afficher la politique de mon compte");
+        Console.WriteLine("5. Revenir au choix du compte");
+        Console.WriteLine("6. Quitter\n");
     }
 
     static void AfficherMenuPrincipal()
@@ -105,6 +133,4 @@ class Program
         Console.WriteLine("2. Compte epargne");
         Console.WriteLine("3. Quitter");
     }
-
 }
-
