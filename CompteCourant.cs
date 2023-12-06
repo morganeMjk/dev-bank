@@ -6,7 +6,6 @@ using System.Text;
 namespace DevBank
 {
     public class CompteCourant : CompteBancaire, ITransactionnel
-    public class CompteCourant : CompteBancaire, ITransactionnel
     {
         private double _decouvertAutorise;
 
@@ -17,14 +16,7 @@ namespace DevBank
 
         public void CalculFrais()
         {
-            if (getSolde() < _decouvertAutorise){
-
-            }
-            else
-            {
-
-
-            }
+            
         }
 
         public void ObtenirPolitique()
