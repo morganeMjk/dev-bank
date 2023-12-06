@@ -5,24 +5,30 @@ using System.Text;
 
 namespace DevBank
 {
-    public class CompteCourant : CompteBancaire , ITransactionnel
+    public class CompteCourant : CompteBancaire, ITransactionnel
     {
-        public int DécouvertAutorisé
+        private double _decouvertAutorise;
+
+        public CompteCourant() : base()
         {
-            get => default;
-            set
-            {
-            }
+            _decouvertAutorise = -500;
         }
 
         public void CalculFrais()
         {
-            throw new System.NotImplementedException();
+            if (getSolde() < _decouvertAutorise){
+
+            }
+            else
+            {
+
+
+            }
         }
 
         public void ObtenirPolitique()
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException(); 
         }
     }
 }

@@ -7,15 +7,38 @@ namespace DevBank
     {
         private Guid _numeroCompte;
 
+        public Guid getNumeroCompte()
+        {
+            return _numeroCompte;
+        }
+
+
         private double _solde;
+
+        public double getSolde()
+        {
+            return _solde;
+        }
+
+        public double setSolde(double solde)
+        {
+            _solde = solde;
+            return _solde;
+        }
 
         private List<Transaction> _listeTransactions;
 
-        public List<Transaction> ListeTransactions
+        public List<Transaction> getListeTransactions()
         {
-            get { return _listeTransactions; }
-            set { _listeTransactions = value; }
+            return _listeTransactions;
         }
+
+        public List<Transaction> setListeTransactions(List<Transaction> listeTransactions)
+        {
+            _listeTransactions = listeTransactions;
+            return _listeTransactions;
+        }
+        
 
         public CompteBancaire()
         {
