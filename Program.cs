@@ -1,11 +1,16 @@
-﻿using System;
-using System.ComponentModel.Design;
-using DevBank;
+﻿using DevBank;
 
 namespace Quizz;
 
 class Program
 {
+    enum TypeChoixCompte
+    {
+        COMPTE_COURANT = 1,
+        COMPTE_EPARGNE = 2,
+        QUITTER = 3
+    }
+
     static void Main(string[] args)
     {
         Console.WriteLine("Bienvenue dans l'application bancaire !");
@@ -15,75 +20,16 @@ class Program
         while (true)
         {
             AfficherMenuPrincipal();
-            Console.Write("Veuillez choisir un compte (1-2) : ");
-            string choixCompte = Console.ReadLine();
-            switch (choixCompte)
+            int choixCompte;
+            TypeChoixCompte choixTypeCompte = GetTypeCompte();
+            switch (choixTypeCompte)
             {
-
-                case "1":
-                    while (true)
-                    {
-                        AfficherPageAccueil(monCompteCourant);
-
-                        Console.Write("Veuillez choisir une option (1-4) : ");
-                        string choix = Console.ReadLine();
-
-                        switch (choix)
-                        {
-                            case "1":
-                                monCompteCourant.EffectuerDepot();
-                                break;
-                            case "2":
-                                monCompteCourant.EffectuerRetrait();
-                                break;
-                            case "3":
-                                monCompteCourant.AfficherHistorique();
-                                break;
-                            case "4":
-                                AfficherMenuPrincipal();
-                                Console.Write("Veuillez choisir un compte (1-2) : ");
-                                choixCompte = Console.ReadLine();
-                                break;
-                            case "5":
-                                Environment.Exit(0);
-                                break;
-                            default:
-                                Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
-                                break;
-                        }
-                    }
-                case "2":
-                    while (true)
-                    {
-                        AfficherPageAccueil(monCompteEpargne);
-
-                        Console.Write("Veuillez choisir une option (1-4) : ");
-                        string choix = Console.ReadLine();
-
-                        switch (choix)
-                        {
-                            case "1":
-                                monCompteEpargne.EffectuerDepot();
-                                break;
-                            case "2":
-                                monCompteEpargne.EffectuerRetrait();
-                                break;
-                            case "3":
-                                monCompteEpargne.AfficherHistorique();
-                                break;
-                            case "4":
-                                AfficherMenuPrincipal();
-                                Console.Write("Veuillez choisir un compte (1-2) : ");
-                                choixCompte = Console.ReadLine();
-                                break;
-                            case "5":
-                                Environment.Exit(0);
-                                break;
-                            default:
-                                Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
-                                break;
-                        }
-                    }
+                case TypeChoixCompte.COMPTE_COURANT:
+                    TraiterActionCompte(monCompteCourant, choixTypeCompte);
+                    break;
+                case TypeChoixCompte.COMPTE_EPARGNE:
+                    TraiterActionCompte(monCompteEpargne, choixTypeCompte);
+                    break;
                 default:
                     Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
                     break;
@@ -91,11 +37,59 @@ class Program
         }
     }
 
-    static void AfficherPageAccueil(CompteBancaire monCompteBancaire)
+    private static void TraiterActionCompte(CompteBancaire monCompte, TypeChoixCompte choixTypeCompte)
     {
+        var choixQuitter = false;
+        while (!choixQuitter)
+        {
+            AfficherPageAccueil(monCompte, choixTypeCompte);
 
+            Console.Write("Veuillez choisir une option (1-4) : ");
+            string choix = Console.ReadLine();
+
+            switch (choix)
+            {
+                case "1":
+                    monCompte.EffectuerDepot();
+                    break;
+                case "2":
+                    monCompte.EffectuerRetrait();
+                    break;
+                case "3":
+                    monCompte.AfficherHistorique();
+                    break;
+                case "4":
+                    choixQuitter = true;
+                    break;
+                case "5":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Option invalide. Veuillez choisir une option valide.");
+                    break;
+            }
+        };
+    }
+
+    private static TypeChoixCompte GetTypeCompte()
+    {
+        Console.Write("Veuillez choisir un compte (1-2) : ");
+        int.TryParse(Console.ReadLine(), out int choixCompte);
+        TypeChoixCompte choixTypeCompte = (TypeChoixCompte)choixCompte;
+        return choixTypeCompte;
+    }
+
+    static void AfficherPageAccueil(CompteBancaire monCompteBancaire, TypeChoixCompte choixCompte)
+    {
         // Affichage des informations du compte
-        monCompteBancaire.ConsulterSolde();
+        if (choixCompte == TypeChoixCompte.COMPTE_COURANT)
+        {
+            ((CompteCourant)monCompteBancaire).ConsulterSolde();
+        }
+        else if (choixCompte == TypeChoixCompte.COMPTE_EPARGNE)
+        {
+            ((CompteEpargne)monCompteBancaire).ConsulterSolde();
+        }
 
         // Affichage du menu
         Console.WriteLine("1. Effectuer un dépôt");
