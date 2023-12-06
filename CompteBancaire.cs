@@ -7,9 +7,11 @@ namespace DevBank
     {
         private Guid _numeroCompte;
 
-        private double _solde;
+        protected double _solde;
 
-        private List<Transaction> _listeTransactions;
+        protected List<Transaction> _listeTransactions;
+        protected double _montantRetrait;
+
 
         public List<Transaction> ListeTransactions
         {
@@ -30,7 +32,7 @@ namespace DevBank
         }
 
 
-        public void CalculFrais()
+        public virtual double CalculFrais()
         {
             throw new System.NotImplementedException();
         }
@@ -84,6 +86,7 @@ namespace DevBank
 
                     if (double.TryParse(montant, out double montantDouble))
                     {
+                        _montantRetrait = montantDouble;
                         if (montantDouble > 0)
                         {
                             if (montantDouble <= _solde)
@@ -169,7 +172,5 @@ namespace DevBank
                 }
             }
         }
-
-
     }
 }

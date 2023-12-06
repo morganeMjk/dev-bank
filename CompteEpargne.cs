@@ -9,10 +9,13 @@ namespace DevBank
     {
 
         private double _tauxInteret;
+        private double _tauxFrais;
+
 
         public CompteEpargne() : base()
         {
             _tauxInteret = 0.046;
+            _tauxFrais = 0.0335;
         }
 
 
@@ -22,14 +25,30 @@ namespace DevBank
             // Capital x Taux x (nmb jours/365)
         }
 
-        public void CalculFrais()
+        public override bool EffectuerRetrait()
         {
-            throw new System.NotImplementedException();
+            base.EffectuerRetrait();
+            var frais = CalculFrais();
+
+            _solde -= frais;
+
+            Transaction retrait = new Transaction("Retrait", frais, DateTime.Now);
+            _listeTransactions.Add(retrait);
+
+            return true;
+        }
+
+        public override double CalculFrais()
+        {
+            var frais = _montantRetrait * _tauxFrais;
+            Console.WriteLine($"cette opération va engendrer des frais à hauteur de {frais}€");
+
+            return frais;
         }
 
         public override void ObtenirPolitique()
         {
-            Console.WriteLine($"Le taux d'intérêt est de {_tauxInteret*100}%");
+            Console.WriteLine($"Le taux d'intérêt est de {_tauxInteret * 100}%");
             Console.ReadLine();
         }
     }
