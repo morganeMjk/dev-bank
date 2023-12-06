@@ -35,9 +35,9 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public void ObtenirPolitique()
+        public virtual void ObtenirPolitique()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine("Voici la politique de votre compte :");
         }
 
         public virtual void AfficherHistorique()
@@ -169,5 +169,7 @@ namespace DevBank
                 }
             }
         }
+
+
     }
 }

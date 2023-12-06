@@ -16,8 +16,9 @@ class Program
         DEPOT = 1,
         RETRAIT = 2,
         HISTORIQUE = 3,
-        RETOUR_CHOIX_COMPTE = 4,
-        QUITTER = 5
+        POLITIQUE = 4,
+        RETOUR_CHOIX_COMPTE = 5,
+        QUITTER = 6
     }
 
     static void Main(string[] args)
@@ -66,6 +67,9 @@ class Program
                     break;
                 case ActionsCompte.HISTORIQUE:
                     monCompte.AfficherHistorique();
+                    break;
+                case ActionsCompte.POLITIQUE:
+                    monCompte.ObtenirPolitique();
                     break;
                 case ActionsCompte.RETOUR_CHOIX_COMPTE:
                     choixQuitter = true;
@@ -118,8 +122,9 @@ class Program
         Console.WriteLine("1. Effectuer un dépôt");
         Console.WriteLine("2. Effectuer un retrait");
         Console.WriteLine("3. Afficher l'historique des transactions");
-        Console.WriteLine("4. Revenir au choix du compte");
-        Console.WriteLine("5. Quitter\n");
+        Console.WriteLine("4. Afficher la politique de mon compte");
+        Console.WriteLine("5. Revenir au choix du compte");
+        Console.WriteLine("6. Quitter\n");
     }
 
     static void AfficherMenuPrincipal()

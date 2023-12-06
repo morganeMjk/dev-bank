@@ -27,9 +27,10 @@ namespace DevBank
             throw new System.NotImplementedException();
         }
 
-        public void ObtenirPolitique()
+        public override void ObtenirPolitique()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine($"Le taux d'intérêt est de {_tauxInteret*100}%");
+            Console.ReadLine();
         }
     }
 }
