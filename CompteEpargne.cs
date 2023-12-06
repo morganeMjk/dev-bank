@@ -5,19 +5,21 @@ using System.Text;
 
 namespace DevBank
 {
-    public class CompteEpargne : CompteBancaire
+    public class CompteEpargne : CompteBancaire, ITransactionnel
     {
-        public int TauxIntérêt
+
+        private double _tauxInteret;
+
+        public CompteEpargne() : base()
         {
-            get => default;
-            set
-            {
-            }
+            _tauxInteret = 0.046;
         }
+
 
         public void CalculIntérêt()
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(_tauxInteret);
+            // Capital x Taux x (nmb jours/365)
         }
 
         public void CalculFrais()
