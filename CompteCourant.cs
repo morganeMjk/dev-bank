@@ -30,7 +30,7 @@ namespace DevBank
 
                     if (double.TryParse(montant, out double montantDouble))
                     {
-                        if (montantDouble > 0)
+                        if (montantDouble > 0 && montantDouble < 500)
                         {
                             // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
                             if (_solde - montantDouble >= _decouvertAutorise)
@@ -49,8 +49,7 @@ namespace DevBank
                                         double montantFraisAvantRetrait = CalculerFraisRetrait();
                                         _solde -= montantFraisAvantRetrait;
 
-                                        Transaction transactionFrais = new Transaction("Retrait", montantFraisAvantRetrait, DateTime.Now);
-                                        _listeTransactions.Add(transactionFrais);
+
                                     }
 
                                     Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
@@ -67,7 +66,7 @@ namespace DevBank
                                         double montantFraisApresRetrait = CalculerFraisRetrait();
                                         _solde -= montantFraisApresRetrait;
 
-                                        Transaction transactionFrais = new Transaction("Retrait", montantFraisApresRetrait, DateTime.Now);
+                                        Transaction transactionFrais = new Transaction("Frais de retrait", montantFraisApresRetrait, DateTime.Now);
                                         _listeTransactions.Add(transactionFrais);
                                     }
 
@@ -85,7 +84,7 @@ namespace DevBank
                         }
                         else
                         {
-                            throw new FormatException("Le montant doit être supérieur à zéro.");
+                            throw new FormatException("Le retrait doit être d'un montant compris entre 0 et 500.");
                         }
                     }
                     else
