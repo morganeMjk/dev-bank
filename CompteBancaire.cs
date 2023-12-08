@@ -25,10 +25,10 @@ namespace DevBank
             _listeTransactions = new List<Transaction>();
         }
 
-        public virtual void ConsulterSolde()
+        public virtual void ConsulterSolde(string typeDeCompte)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
+            Console.WriteLine($"{typeDeCompte} {_numeroCompte}. Votre solde est de: {_solde} €");
             Console.ResetColor();
         }
 

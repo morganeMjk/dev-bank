@@ -111,11 +111,11 @@ class Program
         // Affichage des informations du compte
         if (choixCompte == TypeChoixCompte.COMPTE_COURANT)
         {
-            ((CompteCourant)monCompteBancaire).ConsulterSolde();
+            ((CompteCourant)monCompteBancaire).ConsulterSolde("Compte courant");
         }
         else if (choixCompte == TypeChoixCompte.COMPTE_EPARGNE)
         {
-            ((CompteEpargne)monCompteBancaire).ConsulterSolde();
+            ((CompteEpargne)monCompteBancaire).ConsulterSolde("Compte épargne");
         }
 
         // Affichage du menu

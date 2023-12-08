@@ -14,12 +14,11 @@ namespace DevBank
         private double _tauxFrais;
         private Timer _timer;
 
-
         public CompteEpargne() : base()
         {
             _tauxInteret = 0.046;
             _tauxFrais = 0.0335;
-            _timer = new Timer(60000); // 60000 millisecondes = 1 minute
+            _timer = new Timer(60000);
             _timer.Elapsed += CalculerIntérêt;
             _timer.AutoReset = true;
             _timer.Start();
@@ -42,7 +41,7 @@ namespace DevBank
                     _solde += interet;
 
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine($"Des intérêts de {interet}€ ont été ajoutés à votre compte.");
+                    Console.WriteLine($"\n Des intérêts de {interet}€ ont été ajoutés à votre compte.");
                     Console.ResetColor();
 
                     // Mettre à jour la dernière transaction
