@@ -32,7 +32,7 @@ namespace DevBank
 
             _solde -= frais;
 
-            Transaction retrait = new Transaction("Retrait", frais, DateTime.Now);
+            Transaction retrait = new Transaction("Frais de retrait", frais, DateTime.Now);
             _listeTransactions.Add(retrait);
 
             return true;

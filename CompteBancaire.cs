@@ -13,7 +13,7 @@ namespace DevBank
         protected double _montantRetrait;
 
 
-        
+
 
 
 
@@ -55,14 +55,24 @@ namespace DevBank
                     {
                         Console.Write(userTransaction.Date.ToShortDateString());
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($" +{userTransaction.Montant} €");
+                        Console.Write($" +{userTransaction.Montant}€ ");
+                        Console.WriteLine(userTransaction.Type);
                         Console.ResetColor();
                     }
                     else if (userTransaction.Type == "Retrait")
                     {
                         Console.Write(userTransaction.Date.ToShortDateString());
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($" -{userTransaction.Montant} €");
+                        Console.Write($" -{userTransaction.Montant}€ ");
+                        Console.WriteLine(userTransaction.Type);
+                        Console.ResetColor();
+                    }
+                    else if (userTransaction.Type == "Frais de retrait")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write($" -{userTransaction.Montant}€ ");
+                        Console.WriteLine(userTransaction.Type);
                         Console.ResetColor();
                     }
                 }
