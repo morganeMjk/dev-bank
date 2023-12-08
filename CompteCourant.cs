@@ -33,7 +33,7 @@ namespace DevBank
                         if (montantDouble > 0)
                         {
                             // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
-                            if (montantDouble <= _solde + _decouvertAutorise)
+                        if (_solde - montantDouble >= _decouvertAutorise)
                             {
                                 int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
                                 if (decimales <= 2)
