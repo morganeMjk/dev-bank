@@ -27,7 +27,9 @@ namespace DevBank
 
         public virtual void ConsulterSolde()
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"Numero de compte {_numeroCompte}. Votre solde est de: {_solde} €");
+            Console.ResetColor();
         }
 
 
@@ -72,6 +74,14 @@ namespace DevBank
                         Console.Write(userTransaction.Date.ToShortDateString());
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write($" -{userTransaction.Montant}€ ");
+                        Console.WriteLine(userTransaction.Type);
+                        Console.ResetColor();
+                    }
+                    else if (userTransaction.Type == "Intérêts")
+                    {
+                        Console.Write(userTransaction.Date.ToShortDateString());
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write($" +{userTransaction.Montant}€ ");
                         Console.WriteLine(userTransaction.Type);
                         Console.ResetColor();
                     }
