@@ -9,6 +9,7 @@ namespace DevBank
 {
     public class CompteEpargne : CompteBancaire, ITransactionnel
     {
+        private const double SOLDE_INITIAL_EPARGNE = 50;
 
         private double _tauxInteret;
         private double _tauxFrais;
@@ -16,6 +17,7 @@ namespace DevBank
 
         public CompteEpargne() : base()
         {
+            _solde = SOLDE_INITIAL_EPARGNE;
             _tauxInteret = 0.046;
             _tauxFrais = 0.0335;
             _timer = new Timer(60000);
@@ -51,18 +53,65 @@ namespace DevBank
             }
         }
 
-        public override bool EffectuerRetrait()
+public override bool EffectuerRetrait()
+{
+    while (true)
+    {
+        try
         {
-            base.EffectuerRetrait();
-            var frais = CalculFrais();
+            Console.WriteLine("Veuillez saisir le montant de votre retrait :");
+            string montant = Console.ReadLine();
 
-            _solde -= frais;
+            if (double.TryParse(montant, out double montantDouble))
+            {
+                _montantRetrait = montantDouble;
+                if (montantDouble > 0)
+                {
+                    double totalAmount = montantDouble + CalculFrais();
 
-            Transaction retrait = new Transaction("Frais de retrait", frais, DateTime.Now);
-            _listeTransactions.Add(retrait);
+                    if (_solde - totalAmount >= 50)
+                    {
+                        int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                        if (decimales <= 2)
+                        {
+                            _solde -= totalAmount;
+                            Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                            _listeTransactions.Add(retrait);
+                            
+                            Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
+                            _listeTransactions.Add(transactionFrais);
 
-            return true;
+                            Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+
+                            return true;
+                        }
+                        else
+                        {
+                            throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
+                    }
+                }
+                else
+                {
+                    throw new FormatException("Le montant doit être supérieur à zéro.");
+                }
+            }
+            else
+            {
+                throw new FormatException("Veuillez saisir un montant valide.");
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+        }
+    }
+}
+
 
         public override double CalculFrais()
         {
