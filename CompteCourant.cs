@@ -33,7 +33,7 @@ namespace DevBank
                         if (montantDouble > 0)
                         {
                             // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
-                        if (_solde - montantDouble >= _decouvertAutorise)
+                            if (_solde - montantDouble >= _decouvertAutorise)
                             {
                                 int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
                                 if (decimales <= 2)
@@ -48,10 +48,16 @@ namespace DevBank
                                     {
                                         double montantFraisAvantRetrait = CalculerFraisRetrait();
                                         _solde -= montantFraisAvantRetrait;
+
+                                        Transaction transactionFrais = new Transaction("Retrait", montantFraisAvantRetrait, DateTime.Now);
+                                        _listeTransactions.Add(transactionFrais);
                                     }
 
                                     Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
                                     _listeTransactions.Add(retrait);
+
+
+
 
                                     Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
 
@@ -60,6 +66,9 @@ namespace DevBank
                                     {
                                         double montantFraisApresRetrait = CalculerFraisRetrait();
                                         _solde -= montantFraisApresRetrait;
+
+                                        Transaction transactionFrais = new Transaction("Retrait", montantFraisApresRetrait, DateTime.Now);
+                                        _listeTransactions.Add(transactionFrais);
                                     }
 
                                     return true;
