@@ -50,54 +50,39 @@ namespace DevBank
             _listeTransactions.Add(derniereTransaction);
         }
 
-        public override bool EffectuerRetrait()
+        public override void EffectuerRetrait(string? montant)
         {
-            while (true)
+            if (!double.TryParse(montant, out double montantDouble))
             {
-                try
-                {
-                    Console.WriteLine("Veuillez saisir le montant de votre retrait :");
-                    string montant = Console.ReadLine();
-
-                    if (!double.TryParse(montant, out double montantDouble))
-                    {
-                        throw new FormatException("Veuillez saisir un montant valide.");
-                    }
-
-                    _montantRetrait = montantDouble;
-                    if (montantDouble <= 0)
-                    {
-                        throw new FormatException("Le montant doit être supérieur à zéro.");
-                    }
-
-                    double totalAmount = montantDouble + CalculFrais();
-                    if (_solde - totalAmount < 50)
-                    {
-                        throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
-                    }
-
-                    int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-                    if (decimales > 2)
-                    {
-                        throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-                    }
-
-                    _solde -= totalAmount;
-                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
-                    _listeTransactions.Add(retrait);
-
-                    Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
-                    _listeTransactions.Add(transactionFrais);
-
-                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Une erreur s'est produite : " + ex.Message);
-                }
+                throw new FormatException("Veuillez saisir un montant valide.");
             }
+
+            _montantRetrait = montantDouble;
+            if (montantDouble <= 0)
+            {
+                throw new FormatException("Le montant doit être supérieur à zéro.");
+            }
+
+            double totalAmount = montantDouble + CalculFrais();
+            if (_solde - totalAmount < 50)
+            {
+                throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
+            }
+
+            int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+            if (decimales > 2)
+            {
+                throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+            }
+
+            _solde -= totalAmount;
+            Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+            _listeTransactions.Add(retrait);
+
+            Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
+            _listeTransactions.Add(transactionFrais);
+
+            Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
         }
 
 
