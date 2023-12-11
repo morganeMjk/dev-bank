@@ -3,28 +3,27 @@
     public class CompteCourant : CompteBancaire, ITransactionnel
     {
         private const double _decouvertAutorise = -500;
+        private const double _montantMax = 500;
+
         private const double _pourcentageFraisRetrait = 0.02;
 
         // Autres membres et méthodes
 
         private double CalculerFraisRetrait()
         {
-            double montant = Math.Abs(_solde) * _pourcentageFraisRetrait;
+            double montant = Math.Round(Math.Abs(_solde) * _pourcentageFraisRetrait, 2);
             Console.WriteLine($"Frais appliqués : -{montant} € ({_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif)");
             return montant;
         }
 
         public override void EffectuerRetrait(string? montant)
         {
-            if (!double.TryParse(montant, out double montantDouble))
-            {
-                throw new FormatException("Veuillez saisir un montant valide.");
-            }
 
-            if (montantDouble <= 0 || montantDouble >= 500)
-            {
-                throw new FormatException("Le retrait doit être d'un montant compris entre 0 et 500.");
-            }
+            var montantDouble = Montant.ConvertirEnDouble(montant);
+
+            Montant.VerifierSiNull(montantDouble);
+
+            Montant.VerifierSiSuperieurMontantMax(montantDouble, _montantMax);
 
             // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
             if (_solde - montantDouble < _decouvertAutorise)
@@ -32,11 +31,7 @@
                 throw new InvalidOperationException("Le montant du retrait est supérieur au solde autorisé (y compris le découvert).");
             }
 
-            int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-            if (decimales > 2)
-            {
-                throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-            }
+            Montant.VerifierDecimales(montantDouble);
 
             double soldeAvantRetrait = _solde;
 

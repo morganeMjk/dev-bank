@@ -2,7 +2,7 @@ namespace DevBank;
 
 public abstract class CompteBancaire : ITransactionnel
 {
-    private const string MESSAGEERREURPRECISIONMONTANT = "Le montant ne peut pas avoir plus de deux chiffres après la virgule";
+
     public Guid _numeroCompte;
 
     protected double _solde;
@@ -98,26 +98,15 @@ public abstract class CompteBancaire : ITransactionnel
 
     public virtual void EffectuerRetrait(string? montant)
     {
-        if (!double.TryParse(montant, out double montantDouble))
-        {
-            throw new FormatException("Veuillez saisir un montant valide.");
-        }
+        var montantDouble = Montant.ConvertirEnDouble(montant);
+
         _montantRetrait = montantDouble;
-        if (montantDouble <= 0)
-        {
-            throw new FormatException("Le montant doit être supérieur à zéro.");
-        }
 
-        if (montantDouble > _solde)
-        {
-            throw new InvalidOperationException("Le montant du retrait est supérieur au solde.");
-        }
+        Montant.VerifierSiNull(montantDouble);
 
-        int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-        if (decimales > 2)
-        {
-            throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-        }
+        Montant.VerifierSiSuperieurSolde(montantDouble, _solde);
+
+        Montant.VerifierDecimales(montantDouble);
 
         _solde -= montantDouble;
         Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
@@ -128,21 +117,11 @@ public abstract class CompteBancaire : ITransactionnel
 
     public virtual void EffectuerDepot(string? montant)
     {
-        if (!double.TryParse(montant, out double montantDouble))
-        {
-            throw new FormatException("Veuillez saisir un montant valide.");
-        }
+        var montantDouble = Montant.ConvertirEnDouble(montant);
 
-        if (montantDouble < 0.01)
-        {
-            throw new FormatException("Le montant doit être supérieur ou égal à 0,01.");
-        }
+        Montant.VerifierSiNull(montantDouble);
 
-        int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-        if (decimales > 2)
-        {
-            throw new FormatException(MESSAGEERREURPRECISIONMONTANT);
-        }
+        Montant.VerifierDecimales(montantDouble);
 
         _solde += montantDouble;
         Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);

@@ -38,7 +38,7 @@ namespace DevBank
                 return;
             }
             // Calculer et ajouter les intérêts
-            double interet = _solde * _tauxInteret;
+            double interet = Math.Round(_solde * _tauxInteret, 2);
             _solde += interet;
 
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -52,34 +52,29 @@ namespace DevBank
 
         public override void EffectuerRetrait(string? montant)
         {
-            if (!double.TryParse(montant, out double montantDouble))
-            {
-                throw new FormatException("Veuillez saisir un montant valide.");
-            }
+            var montantDouble = Montant.ConvertirEnDouble(montant);
 
             _montantRetrait = montantDouble;
-            if (montantDouble <= 0)
-            {
-                throw new FormatException("Le montant doit être supérieur à zéro.");
-            }
 
-            double totalAmount = montantDouble + CalculFrais();
+            Montant.VerifierSiNull(montantDouble);
+
+            double frais = CalculFrais();
+
+            double totalAmount = montantDouble + frais;
+            
             if (_solde - totalAmount < 50)
             {
                 throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
             }
 
-            int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-            if (decimales > 2)
-            {
-                throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-            }
+            Montant.VerifierDecimales(montantDouble);
 
             _solde -= totalAmount;
+
             Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
             _listeTransactions.Add(retrait);
 
-            Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
+            Transaction transactionFrais = new Transaction("Frais de retrait", frais, DateTime.Now);
             _listeTransactions.Add(transactionFrais);
 
             Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
@@ -88,7 +83,7 @@ namespace DevBank
 
         public override double CalculFrais()
         {
-            var frais = _montantRetrait * _tauxFrais;
+            var frais = Math.Round(_montantRetrait * _tauxFrais, 2);
             Console.WriteLine($"cette opération va engendrer des frais à hauteur de {frais}€");
             return frais;
         }
