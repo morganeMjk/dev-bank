@@ -1,4 +1,4 @@
-﻿namespace DevBank;
+namespace DevBank;
 
 public interface ITransactionnel
 {

@@ -1,4 +1,4 @@
-﻿namespace DevBank;
+namespace DevBank;
 
 public abstract class CompteBancaire : ITransactionnel
 {
@@ -7,8 +7,13 @@ public abstract class CompteBancaire : ITransactionnel
 
     protected double _solde;
 
-    protected List<Transaction> _listeTransactions;
-    protected double _montantRetrait;
+        protected List<Transaction> _listeTransactions;
+        protected double _montantRetrait;
+
+        public delegate void NotificationDelegate(string message);
+
+        // event
+        public NotificationDelegate Notification;
 
     public CompteBancaire()
     {
