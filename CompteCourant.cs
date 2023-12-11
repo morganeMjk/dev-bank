@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DevBank
+﻿namespace DevBank
 {
     public class CompteCourant : CompteBancaire, ITransactionnel
     {
@@ -28,69 +23,56 @@ namespace DevBank
                     Console.WriteLine("Veuillez saisir le montant de votre retrait :");
                     string montant = Console.ReadLine();
 
-                    if (double.TryParse(montant, out double montantDouble))
-                    {
-                        if (montantDouble > 0 && montantDouble < 500)
-                        {
-                            // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
-                            if (_solde - montantDouble >= _decouvertAutorise)
-                            {
-                                int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-                                if (decimales <= 2)
-                                {
-                                    double soldeAvantRetrait = _solde;
-
-                                    // Effectuer le retrait
-                                    _solde -= montantDouble;
-
-                                    // Si le solde est devenu négatif avant le retrait, appliquer des frais
-                                    if (soldeAvantRetrait < 0)
-                                    {
-                                        double montantFraisAvantRetrait = CalculerFraisRetrait();
-                                        _solde -= montantFraisAvantRetrait;
-
-
-                                    }
-
-                                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
-                                    _listeTransactions.Add(retrait);
-
-
-
-
-                                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
-
-                                    // Si le solde est devenu négatif après le retrait, appliquer des frais
-                                    if (_solde < 0)
-                                    {
-                                        double montantFraisApresRetrait = CalculerFraisRetrait();
-                                        _solde -= montantFraisApresRetrait;
-
-                                        Transaction transactionFrais = new Transaction("Frais de retrait", montantFraisApresRetrait, DateTime.Now);
-                                        _listeTransactions.Add(transactionFrais);
-                                    }
-
-                                    return true;
-                                }
-                                else
-                                {
-                                    throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-                                }
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("Le montant du retrait est supérieur au solde autorisé (y compris le découvert).");
-                            }
-                        }
-                        else
-                        {
-                            throw new FormatException("Le retrait doit être d'un montant compris entre 0 et 500.");
-                        }
-                    }
-                    else
+                    if (!double.TryParse(montant, out double montantDouble))
                     {
                         throw new FormatException("Veuillez saisir un montant valide.");
                     }
+
+                    if (montantDouble <= 0 || montantDouble >= 500)
+                    {
+                        throw new FormatException("Le retrait doit être d'un montant compris entre 0 et 500.");
+                    }
+
+                    // Vérifier si le retrait est possible avec le solde actuel et le découvert autorisé
+                    if (_solde - montantDouble < _decouvertAutorise)
+                    {
+                        throw new InvalidOperationException("Le montant du retrait est supérieur au solde autorisé (y compris le découvert).");
+                    }
+
+                    int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                    if (decimales > 2)
+                    {
+                        throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                    }
+
+                    double soldeAvantRetrait = _solde;
+
+                    // Effectuer le retrait
+                    _solde -= montantDouble;
+
+                    // Si le solde est devenu négatif avant le retrait, appliquer des frais
+                    if (soldeAvantRetrait < 0)
+                    {
+                        double montantFraisAvantRetrait = CalculerFraisRetrait();
+                        _solde -= montantFraisAvantRetrait;
+                    }
+
+                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                    _listeTransactions.Add(retrait);
+
+                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+
+                    // Si le solde est devenu négatif après le retrait, appliquer des frais
+                    if (_solde < 0)
+                    {
+                        double montantFraisApresRetrait = CalculerFraisRetrait();
+                        _solde -= montantFraisApresRetrait;
+
+                        Transaction transactionFrais = new Transaction("Frais de retrait", montantFraisApresRetrait, DateTime.Now);
+                        _listeTransactions.Add(transactionFrais);
+                    }
+
+                    return true;
                 }
                 catch (Exception ex)
                 {

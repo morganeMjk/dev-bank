@@ -1,6 +1,4 @@
-﻿using DevBank;
-
-namespace Quizz;
+﻿namespace DevBank;
 
 class Program
 {
@@ -26,6 +24,9 @@ class Program
         Console.WriteLine("Bienvenue dans l'application bancaire !");
         CompteCourant monCompteCourant = new CompteCourant();
         CompteEpargne monCompteEpargne = new CompteEpargne();
+        
+        monCompteCourant.Notification += NotificationManager.SendNotification;
+        monCompteEpargne.Notification += NotificationManager.SendNotification;
 
         while (true)
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DevBank
+﻿namespace DevBank
 {
     public abstract class CompteBancaire : ITransactionnel
     {
@@ -12,11 +9,10 @@ namespace DevBank
         protected List<Transaction> _listeTransactions;
         protected double _montantRetrait;
 
+        public delegate void NotificationDelegate(string message);
 
-
-
-
-
+        // event
+        public NotificationDelegate Notification;
 
         public CompteBancaire()
         {
@@ -31,8 +27,6 @@ namespace DevBank
             Console.WriteLine($"{typeDeCompte} {_numeroCompte}. Votre solde est de: {_solde} €");
             Console.ResetColor();
         }
-
-
         public virtual double CalculFrais()
         {
             throw new System.NotImplementedException();
@@ -155,33 +149,28 @@ namespace DevBank
                     Console.WriteLine("Veuillez saisir le montant de votre dépôt :");
                     string montant = Console.ReadLine();
 
-                    if (double.TryParse(montant, out double montantDouble))
-                    {
-                        if (montantDouble >= 0.01)
-                        {
-                            int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-                            if (decimales <= 2)
-                            {
-                                _solde += montantDouble;
-                                Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
-                                _listeTransactions.Add(depot);
-                                Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
-                                return true;
-                            }
-                            else
-                            {
-                                throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
-                            }
-                        }
-                        else
-                        {
-                            throw new FormatException("Le montant doit être supérieur ou égal à 0,01.");
-                        }
-                    }
-                    else
+                    if (!double.TryParse(montant, out double montantDouble))
                     {
                         throw new FormatException("Veuillez saisir un montant valide.");
                     }
+
+                    if (montantDouble < 0.01)
+                    {
+                        throw new FormatException("Le montant doit être supérieur ou égal à 0,01.");
+                    }
+
+                    int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                    if (decimales > 2)
+                    {
+                        throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                    }
+
+                    _solde += montantDouble;
+                    Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+                    _listeTransactions.Add(depot);
+                    Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
+                    Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}");
+                    return true;
                 }
                 catch (Exception ex)
                 {
@@ -189,7 +178,5 @@ namespace DevBank
                 }
             }
         }
-
-
     }
 }
