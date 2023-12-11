@@ -53,64 +53,64 @@ namespace DevBank
             }
         }
 
-public override bool EffectuerRetrait()
-{
-    while (true)
-    {
-        try
+        public override bool EffectuerRetrait()
         {
-            Console.WriteLine("Veuillez saisir le montant de votre retrait :");
-            string montant = Console.ReadLine();
-
-            if (double.TryParse(montant, out double montantDouble))
+            while (true)
             {
-                _montantRetrait = montantDouble;
-                if (montantDouble > 0)
+                try
                 {
-                    double totalAmount = montantDouble + CalculFrais();
+                    Console.WriteLine("Veuillez saisir le montant de votre retrait :");
+                    string montant = Console.ReadLine();
 
-                    if (_solde - totalAmount >= 50)
+                    if (double.TryParse(montant, out double montantDouble))
                     {
-                        int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
-                        if (decimales <= 2)
+                        _montantRetrait = montantDouble;
+                        if (montantDouble > 0)
                         {
-                            _solde -= totalAmount;
-                            Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
-                            _listeTransactions.Add(retrait);
-                            
-                            Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
-                            _listeTransactions.Add(transactionFrais);
+                            double totalAmount = montantDouble + CalculFrais();
 
-                            Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+                            if (_solde - totalAmount >= 50)
+                            {
+                                int decimales = BitConverter.GetBytes(decimal.GetBits((decimal)montantDouble)[3])[2];
+                                if (decimales <= 2)
+                                {
+                                    _solde -= totalAmount;
+                                    Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
+                                    _listeTransactions.Add(retrait);
 
-                            return true;
+                                    Transaction transactionFrais = new Transaction("Frais de retrait", CalculFrais(), DateTime.Now);
+                                    _listeTransactions.Add(transactionFrais);
+
+                                    Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+
+                                    return true;
+                                }
+                                else
+                                {
+                                    throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
+                            }
                         }
                         else
                         {
-                            throw new FormatException("Le montant ne peut pas avoir plus de deux chiffres après la virgule");
+                            throw new FormatException("Le montant doit être supérieur à zéro.");
                         }
                     }
                     else
                     {
-                        throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
+                        throw new FormatException("Veuillez saisir un montant valide.");
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new FormatException("Le montant doit être supérieur à zéro.");
+                    Console.WriteLine("Une erreur s'est produite : " + ex.Message);
                 }
             }
-            else
-            {
-                throw new FormatException("Veuillez saisir un montant valide.");
-            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
-        }
-    }
-}
 
 
         public override double CalculFrais()
@@ -124,6 +124,7 @@ public override bool EffectuerRetrait()
         public override void ObtenirPolitique()
         {
             Console.WriteLine($"Le taux d'intérêt est de {_tauxInteret * 100}%");
+            Console.WriteLine($"En cas de retrait, les frais s'élèvent à {_tauxFrais * 100}% du montant du retrait.");
             Console.ReadLine();
         }
     }
