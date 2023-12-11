@@ -3,6 +3,6 @@ namespace DevBank;
 public interface ITransactionnel
 {
     void EffectuerRetrait(string? montant);
-    bool EffectuerVirement(CompteBancaire compteDestination);
+    void EffectuerVirement(CompteBancaire compteDestination, string? montant);
     void EffectuerDepot(string? montant);
 }

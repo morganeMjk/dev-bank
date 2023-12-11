@@ -3,17 +3,17 @@ namespace DevBank;
 public abstract class CompteBancaire : ITransactionnel
 {
     private const string MESSAGEERREURPRECISIONMONTANT = "Le montant ne peut pas avoir plus de deux chiffres après la virgule";
-    private Guid _numeroCompte;
+    public Guid _numeroCompte;
 
     protected double _solde;
 
-        protected List<Transaction> _listeTransactions;
-        protected double _montantRetrait;
+    protected List<Transaction> _listeTransactions;
+    protected double _montantRetrait;
 
-        public delegate void NotificationDelegate(string message);
+    public delegate void NotificationDelegate(string message);
 
-        // event
-        public NotificationDelegate Notification;
+    // event
+    public NotificationDelegate Notification;
 
     public CompteBancaire()
     {
@@ -85,30 +85,15 @@ public abstract class CompteBancaire : ITransactionnel
         }
     }
 
-    public virtual bool EffectuerVirement(CompteBancaire compteDestination)
+    public virtual void EffectuerVirement(CompteBancaire compteDestination, string? montant)
     {
-        
-        while (true)
-        {
-            try
-            {
-                Console.WriteLine("Veuillez saisir le montant du virement :");
-                string? montant = Console.ReadLine();
+        EffectuerRetrait(montant);
 
-                EffectuerRetrait(montant);
+        compteDestination.EffectuerDepot(montant);
 
-                compteDestination.EffectuerDepot(montant);
+        // "Virement entrant"
 
-                // "Virement entrant"
-
-                Console.WriteLine($"Le virement de {montant} € vers le compte {compteDestination._numeroCompte} a été effectué avec succès.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Une erreur s'est produite : " + ex.Message);
-            }
-        }
+        Console.WriteLine($"Le virement de {montant} € vers le compte {compteDestination._numeroCompte} a été effectué avec succès.");
     }
 
     public virtual void EffectuerRetrait(string? montant)

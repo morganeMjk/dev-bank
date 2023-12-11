@@ -13,7 +13,6 @@ class Program
     {
         DEPOT = 1,
         RETRAIT = 2,
-
         VIREMENT = 3,
         HISTORIQUE = 4,
         POLITIQUE = 5,
@@ -26,10 +25,8 @@ class Program
 
     static void Main(string[] args)
     {
-        Console.WriteLine("Bienvenue dans l'application bancaire !");
-        CompteCourant monCompteCourant = new CompteCourant();
-        CompteEpargne monCompteEpargne = new CompteEpargne();
-        
+        Console.WriteLine("Bienvenue dans l'application bancaire !");        
+
         monCompteCourant.Notification += NotificationManager.SendNotification;
         monCompteEpargne.Notification += NotificationManager.SendNotification;
 
@@ -98,8 +95,43 @@ class Program
                     }
                     break;
                 case ActionsCompte.VIREMENT:
-                    // Selectionner mon compte de destination
-                    monCompte.EffectuerVirement(monCompteCourant);
+                    while (true)
+                    {
+                        try
+                        { // Selectionner mon compte de destination
+
+                            Console.WriteLine("Veuillez choisir le compte de destination :");
+
+                            Console.WriteLine("1. Compte courant ");
+                            Console.WriteLine("2. Compte epargne ");
+
+                            var choixCompteDestination = Console.ReadLine();
+
+                            if (choixCompteDestination == "1")
+                            {
+                                Console.WriteLine("Veuillez saisir le montant du virement :");
+                                string? montant = Console.ReadLine();
+
+                                monCompte.EffectuerVirement(monCompteCourant, montant);
+                            }
+                            else if (choixCompteDestination == "2")
+                            {
+
+                                Console.WriteLine("Veuillez saisir le montant du virement :");
+                                string? montant = Console.ReadLine();
+
+                                monCompte.EffectuerVirement(monCompteEpargne, montant);
+                            }
+
+
+
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+                        }
+                    }
                     break;
                 case ActionsCompte.HISTORIQUE:
                     monCompte.AfficherHistorique();
