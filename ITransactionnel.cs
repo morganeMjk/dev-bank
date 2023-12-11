@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace DevBank;
 
-namespace DevBank
+public interface ITransactionnel
 {
-    public interface ITransactionnel
-    {
-        bool EffectuerRetrait();
-        bool EffectuerVirement();
-        bool EffectuerDepot();
-    }
+    void EffectuerRetrait(string? montant);
+    bool EffectuerVirement(CompteBancaire compteDestination);
+    void EffectuerDepot(string? montant);
 }

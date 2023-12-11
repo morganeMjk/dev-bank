@@ -15,17 +15,20 @@ class Program
     {
         DEPOT = 1,
         RETRAIT = 2,
-        HISTORIQUE = 3,
-        POLITIQUE = 4,
-        RETOUR_CHOIX_COMPTE = 5,
-        QUITTER = 6
+
+        VIREMENT = 3,
+        HISTORIQUE = 4,
+        POLITIQUE = 5,
+        RETOUR_CHOIX_COMPTE = 6,
+        QUITTER = 7
     }
+
+    private static CompteCourant monCompteCourant = new CompteCourant();
+    private static CompteEpargne monCompteEpargne = new CompteEpargne();
 
     static void Main(string[] args)
     {
-        Console.WriteLine("Bienvenue dans l'application bancaire !");
-        CompteCourant monCompteCourant = new CompteCourant();
-        CompteEpargne monCompteEpargne = new CompteEpargne();
+        Console.WriteLine("Bienvenue dans l'application bancaire !");        
 
         while (true)
         {
@@ -60,10 +63,40 @@ class Program
             switch (choixActionCompte)
             {
                 case ActionsCompte.DEPOT:
-                    monCompte.EffectuerDepot();
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Veuillez saisir le montant de votre dépôt :");
+                            string? montant = Console.ReadLine();
+                            monCompte.EffectuerDepot(montant);
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+                        }
+                    }
                     break;
                 case ActionsCompte.RETRAIT:
-                    monCompte.EffectuerRetrait();
+                    while (true)
+                    {
+                        try
+                        {
+                            Console.WriteLine("Veuillez saisir le montant de votre retrait :");
+                            string? montant = Console.ReadLine();
+                            monCompte.EffectuerRetrait(montant);
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+                        }
+                    }
+                    break;
+                case ActionsCompte.VIREMENT:
+                    // Selectionner mon compte de destination
+                    monCompte.EffectuerVirement(monCompteCourant);
                     break;
                 case ActionsCompte.HISTORIQUE:
                     monCompte.AfficherHistorique();
@@ -121,10 +154,11 @@ class Program
         // Affichage du menu
         Console.WriteLine("1. Effectuer un dépôt");
         Console.WriteLine("2. Effectuer un retrait");
-        Console.WriteLine("3. Afficher l'historique des transactions");
-        Console.WriteLine("4. Afficher la politique de mon compte");
-        Console.WriteLine("5. Revenir au choix du compte");
-        Console.WriteLine("6. Quitter\n");
+        Console.WriteLine("3. Effectuer un virement");
+        Console.WriteLine("4. Afficher l'historique des transactions");
+        Console.WriteLine("5. Afficher la politique de mon compte");
+        Console.WriteLine("6. Revenir au choix du compte");
+        Console.WriteLine("7. Quitter\n");
     }
 
     static void AfficherMenuPrincipal()
