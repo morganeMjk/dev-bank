@@ -1,2 +1,5 @@
 12/12/2023 09:23:33: Dépôt effectué sur le compte n°26465c03-43c4-43d5-9576-0a556ca40129
 12/12/2023 09:24:04: Dépôt effectué sur le compte n°7e0ab871-70db-429c-b2d3-52eb3dc8b256
+12/12/2023 16:03:51: Retrait de 100€ effectué sur le compte n°19ddfe18-8ded-42ea-8fe6-05ef6faca265. Votre solde est désormais de -100 €
+12/12/2023 16:03:52: Frais appliqués : -100 € 2% du solde en raison de solde négatif, effectué sur le compte n°19ddfe18-8ded-42ea-8fe6-05ef6faca265
+12/12/2023 16:03:52: Dépôt effectué sur le compte n°ea799591-c0a1-4725-93b2-0b2d000dbc87. votre solde est désormais de 150€
