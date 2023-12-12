@@ -128,8 +128,7 @@ public abstract class CompteBancaire : ITransactionnel
             _solde += montantDouble;
             Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
             _listeTransactions.Add(depot);
-            Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
-            Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}");
+            Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}. votre solde est désormais de {_solde}€");
         }
 
         catch (Exception ex)
