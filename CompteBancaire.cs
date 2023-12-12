@@ -123,9 +123,19 @@ public abstract class CompteBancaire : ITransactionnel
 
         Montant.VerifierDecimales(montantDouble);
 
-        _solde += montantDouble;
-        Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
-        _listeTransactions.Add(depot);
-        Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
+                    _solde += montantDouble;
+                    Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+                    _listeTransactions.Add(depot);
+                    Console.WriteLine($"Votre dépôt a bien été pris en compte, votre solde est désormais de {_solde} €");
+                    Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}");
+                    
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Une erreur s'est produite : " + ex.Message);
+                }
+            }
+        }
     }
 }
