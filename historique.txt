@@ -1,2 +1,11 @@
 12/12/2023 09:23:33: Dépôt effectué sur le compte n°26465c03-43c4-43d5-9576-0a556ca40129
 12/12/2023 09:24:04: Dépôt effectué sur le compte n°7e0ab871-70db-429c-b2d3-52eb3dc8b256
+12/12/2023 09:37:47: Dépôt effectué sur le compte n°4b0e6464-ed17-472a-a631-5fd53fb59c6d
+12/12/2023 09:44:48: Retrait de 50€ effectué sur le compte n°6b337342-d201-4c6b-a905-832e5827a973. Votre solde est désormais de -50 €
+12/12/2023 09:44:57: Frais de retrait de 1€ effectué sur le compte n°6b337342-d201-4c6b-a905-832e5827a973
+12/12/2023 09:46:28: Retrait de 50€ effectué sur le compte n°6b337342-d201-4c6b-a905-832e5827a973. Votre solde est désormais de -103,02 €
+12/12/2023 09:46:28: Frais de retrait de 2,06€ effectué sur le compte n°6b337342-d201-4c6b-a905-832e5827a973
+12/12/2023 09:46:28: Dépôt effectué sur le compte n°50988438-4588-4064-9b58-93e4a8643148
+12/12/2023 09:49:54: Retrait de 50€ effectué sur le compte n°315b2357-1a92-463d-bf8d-26bc51b2349a. Votre solde est désormais de -50 €
+12/12/2023 09:49:54: Frais appliqués : -50 € (2% du solde en raison de solde négatif, effectué sur le compte n°315b2357-1a92-463d-bf8d-26bc51b2349a
+12/12/2023 09:49:54: Dépôt effectué sur le compte n°b4b2ee8f-67ea-496c-9f75-cb044b75695a

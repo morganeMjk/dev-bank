@@ -12,7 +12,6 @@
         private double CalculerFraisRetrait()
         {
             double montant = Math.Round(Math.Abs(_solde) * _pourcentageFraisRetrait, 2);
-            Console.WriteLine($"Frais appliqués : -{montant} € ({_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif)");
             return montant;
         }
 
@@ -47,8 +46,7 @@
 
             Transaction retrait = new Transaction("Retrait", montantDouble, DateTime.Now);
             _listeTransactions.Add(retrait);
-
-            Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+            Notification?.Invoke($"Retrait de {montantDouble}€ effectué sur le compte n°{_numeroCompte}. Votre solde est désormais de {_solde} €");
 
             // Si le solde est devenu négatif après le retrait, appliquer des frais
             if (_solde < 0)
@@ -58,6 +56,7 @@
 
                 Transaction transactionFrais = new Transaction("Frais de retrait", montantFraisApresRetrait, DateTime.Now);
                 _listeTransactions.Add(transactionFrais);
+                Notification?.Invoke($"Frais appliqués : -{montant} € ({_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif, effectué sur le compte n°{_numeroCompte}");
             }
         }
     }
