@@ -20,7 +20,7 @@ class Program
         QUITTER = 7
     }
 
-    private static CompteCourant monCompteCourant = new CompteCourant();
+    private static CompteCourant monCompteCourant = new CompteCourant(0);
     private static CompteEpargne monCompteEpargne = new CompteEpargne();
 
     static void Main(string[] args)

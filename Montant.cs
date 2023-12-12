@@ -4,7 +4,7 @@ public static class Montant
 {
     private const string MESSAGEERREURPRECISIONMONTANT = "Le montant ne peut pas avoir plus de deux chiffres après la virgule";
 
-    public static double ConvertirEnDouble(string montant)
+    public static double ConvertirEnDouble(string? montant)
     {
         if (!double.TryParse(montant, out double montantDouble))
         {

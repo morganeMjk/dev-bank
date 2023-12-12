@@ -22,6 +22,15 @@ public abstract class CompteBancaire : ITransactionnel
         _listeTransactions = new List<Transaction>();
     }
 
+    /// <summary>
+    /// Retourne le solde du compte
+    /// </summary>
+    /// <returns>Le solde au format double</returns>
+    public double GetSolde()
+    {
+        return _solde;
+    }
+
     public virtual void ConsulterSolde(string typeDeCompte)
     {
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -117,23 +126,15 @@ public abstract class CompteBancaire : ITransactionnel
 
     public virtual void EffectuerDepot(string? montant)
     {
-        try
-        {
-            var montantDouble = Montant.ConvertirEnDouble(montant);
+        var montantDouble = Montant.ConvertirEnDouble(montant);
 
-            Montant.VerifierSiNull(montantDouble);
+        Montant.VerifierSiNull(montantDouble);
 
-            Montant.VerifierDecimales(montantDouble);
+        Montant.VerifierDecimales(montantDouble);
 
-            _solde += montantDouble;
-            Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
-            _listeTransactions.Add(depot);
-            Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}. votre solde est désormais de {_solde}€");
-        }
-
-        catch (Exception ex)
-        {
-            Console.WriteLine("Une erreur s'est produite : " + ex.Message);
-        }
+        _solde += montantDouble;
+        Transaction depot = new Transaction("Depot", montantDouble, DateTime.Now);
+        _listeTransactions.Add(depot);
+        Notification?.Invoke($"Dépôt effectué sur le compte n°{_numeroCompte}. votre solde est désormais de {_solde}€");       
     }
 }

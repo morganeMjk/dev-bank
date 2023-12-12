@@ -7,6 +7,11 @@
 
         private const double _pourcentageFraisRetrait = 0.02;
 
+        public CompteCourant(double solde) : base()
+        {
+            _solde = solde;
+        }
+
         // Autres membres et méthodes
 
         private double CalculerFraisRetrait()
@@ -67,5 +72,5 @@
             Console.WriteLine($"En cas de retrait qui donne un solde négatif, les frais s'élèvent à {_pourcentageFraisRetrait * 100}% du montant du retrait.");
             Console.ReadLine();
         }
-    }
+  }
 }
