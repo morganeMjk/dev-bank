@@ -61,7 +61,7 @@ namespace DevBank
             double frais = CalculFrais();
 
             double totalAmount = montantDouble + frais;
-            
+
             if (_solde - totalAmount < 50)
             {
                 throw new InvalidOperationException("Le solde après retrait et frais doit être supérieur ou égal à 50.");
@@ -77,7 +77,7 @@ namespace DevBank
             Transaction transactionFrais = new Transaction("Frais de retrait", frais, DateTime.Now);
             _listeTransactions.Add(transactionFrais);
 
-            Console.WriteLine($"Votre retrait a bien été pris en compte, votre solde est désormais de {_solde} €");
+            Notification?.Invoke($"Retrait effectué de {retrait}€ sur le compte n°{_numeroCompte}. {frais}€ de frais ont été appliqués. Votre solde est désormais de {_solde}€");
         }
 
 

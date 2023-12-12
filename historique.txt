@@ -1,2 +1,10 @@
 12/12/2023 09:23:33: Dépôt effectué sur le compte n°26465c03-43c4-43d5-9576-0a556ca40129
 12/12/2023 09:24:04: Dépôt effectué sur le compte n°7e0ab871-70db-429c-b2d3-52eb3dc8b256
+12/12/2023 09:28:46: Dépôt effectué sur le compte n°f0820218-57bf-43ea-8977-8d4de889f048
+12/12/2023 09:28:50: Retrait effectué sur le compte n°f0820218-57bf-43ea-8977-8d4de889f048
+12/12/2023 09:34:18: Dépôt effectué sur le compte n°af5d039a-dc27-48aa-a2cc-9e8912004be3
+12/12/2023 09:34:22: Retrait effectué de 35,14 sur le compte n°af5d039a-dc27-48aa-a2cc-9e8912004be3, votre solde est désormais de 114,86€
+12/12/2023 09:36:03: Dépôt effectué sur le compte n°801607ea-d44a-4c5d-b5f6-e2891792da39
+12/12/2023 09:36:04: Retrait effectué de DevBank.Transaction€ sur le compte n°801607ea-d44a-4c5d-b5f6-e2891792da39. DevBank.Transaction€ de frais ont été appliqués. Votre solde est désormais de 1014,86€
+12/12/2023 09:36:36: Dépôt effectué sur le compte n°0db709f1-c7d3-4319-bd63-a87020029c4d
+12/12/2023 09:36:38: Retrait effectué de DevBank.Transaction€ sur le compte n°0db709f1-c7d3-4319-bd63-a87020029c4d. 0,77€ de frais ont été appliqués. Votre solde est désormais de 1026,23€
