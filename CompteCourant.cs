@@ -56,8 +56,16 @@
 
                 Transaction transactionFrais = new Transaction("Frais de retrait", montantFraisApresRetrait, DateTime.Now);
                 _listeTransactions.Add(transactionFrais);
-                Notification?.Invoke($"Frais appliqués : -{montant} € ({_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif, effectué sur le compte n°{_numeroCompte}");
+                Notification?.Invoke($"Frais appliqués : -{montant} € {_pourcentageFraisRetrait * 100}% du solde en raison de solde négatif, effectué sur le compte n°{_numeroCompte}");
             }
+        }
+
+        public override void ObtenirPolitique()
+        {
+            Console.WriteLine($"Le découvert autoisé est de {_decouvertAutorise} €");
+            Console.WriteLine($"Le retrait maximum autorisé est de {_montantMax} €");
+            Console.WriteLine($"En cas de retrait qui donne un solde négatif, les frais s'élèvent à {_pourcentageFraisRetrait * 100}% du montant du retrait.");
+            Console.ReadLine();
         }
     }
 }
