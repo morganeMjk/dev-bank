@@ -6,11 +6,13 @@ namespace DevBankTest;
 public class CompteBancaireTests
 {
     private CompteCourant _compte;
+    private CompteEpargne _compteEpargne;
 
     [SetUp]
     public void SetUp()
     {
         _compte = new CompteCourant(0);
+        _compteEpargne = new CompteEpargne();
     }
 
     [Test]
@@ -48,5 +50,14 @@ public class CompteBancaireTests
         Assert.Throws<FormatException>(() => _compte.EffectuerRetrait("2,201"));
     }
 
-    // Ajoutez d'autres méthodes de test pour chaque fonctionnalité que vous souhaitez tester.
+
+    [Test]
+
+    public void EffectuerVirement_Input100_ThrowException()
+    {
+        // Act and Assert
+        Assert.Throws<FormatException>(() => _compte.EffectuerVirement(new CompteEpargne(), "100"));
+    }
+
+    // Ajoutez d'autres mï¿½thodes de test pour chaque fonctionnalitï¿½ que vous souhaitez tester.
 }
